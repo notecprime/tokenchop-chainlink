@@ -1,0 +1,1 @@
+geth --rinkeby --http --http.port 7545 --syncmode "light"
