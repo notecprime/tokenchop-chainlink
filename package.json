@@ -5,13 +5,16 @@
   "scripts": {
     "compile": "npx truffle compile",
     "console:dev": "npx truffle console --network cldev",
+    "console:rinkeby": "npx truffle console --network rinkeby",
     "console:kovan": "npx truffle console --network kovan",
     "depcheck": "echo '@chainlink/box' && depcheck --ignore-dirs=build/contracts || true",
     "solhint": "solhint ./contracts/**/*.sol",
     "lint": "yarn solhint",
     "migrate:dev": "npx truffle migrate --reset --network cldev",
+    "migrate:rinkeby": "npx truffle migrate --network rinkeby",
     "migrate:kovan": "npx truffle migrate --network kovan",
-    "test": "npx truffle test"
+    "test": "npx truffle test",
+    "ganache": "node ./scripts/ganache.js"
   },
   "license": "MIT",
   "dependencies": {
