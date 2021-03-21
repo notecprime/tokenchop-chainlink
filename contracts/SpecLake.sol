@@ -20,6 +20,7 @@ contract SpecLake is Ownable {
     uint private _balanceKeysLength;    
 
     event Deposit(address indexed from, uint256 amount);
+    event Withdraw(address indexed to, uint256 amount);
 
     constructor(address _quoteAddress) public {
         quoteAddress = _quoteAddress;
@@ -65,12 +66,33 @@ contract SpecLake is Ownable {
         return true;
     }
 
+    function withdraw(uint256 amount) public returns (bool) {
+        require(amount > 0, "Amount less than 0");
+        refreshSister();
+        uint256 _collateral = address(this).balance;
+        uint256 supplyAmount = Math.baseToSupply(_totalSupply, _collateral, amount);
+        if (supplyAmount > balanceOf[msg.sender]) {
+            supplyAmount = balanceOf[msg.sender];
+        }
+        balanceOf[msg.sender] = balanceOf[msg.sender].sub(supplyAmount);
+        uint256 baseAmount = Math.supplyToBase(_totalSupply, _collateral, supplyAmount);
+        _totalSupply = _totalSupply.sub(supplyAmount);
+        _safeTransfer(msg.sender, baseAmount);
+        emit Withdraw(msg.sender, baseAmount);
+        return true;
+    }
+
     function _addToBalanceKeys(address _key) internal {
         for (uint i = 0; i < _balanceKeysLength; i++) {
             if (_balanceKeys[i] == _key) return;
         }
         _balanceKeys.push(_key);
         _balanceKeysLength++;
-    }    
+    }
+
+    function _safeTransfer(address _to, uint _value) private {
+        (bool _success, /*bytes memory _data*/) = _to.call{value: _value}("");
+        require(_success, 'EtherLakes: TRANSFER_FAILED');
+    }        
 
 }

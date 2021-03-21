@@ -21,4 +21,9 @@ library Math {
         return value.mul(numerator).div(denominator);
     }
 
+    function supplyToBase(uint256 totalSupply, uint256 totalCollateral, uint256 supplyAmount) internal pure returns (uint256) {
+        require(totalSupply != 0, "supplyAmount must not be 0");
+        return Math.mulDiv(supplyAmount, totalCollateral, totalSupply);
+    }    
+
 }
