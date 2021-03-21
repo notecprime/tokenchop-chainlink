@@ -9,7 +9,8 @@ contract StableLake is Ownable {
     address public quoteAddress;
     address public sister;
     string  public baseSymbol;
-    string  public name;    
+    string  public name;
+    uint256 public lastPrice;
     string  public quoteSymbol;
     AggregatorV3Interface internal priceFeed;
 
@@ -30,6 +31,19 @@ contract StableLake is Ownable {
         require(_sister != address(0), 'Invalid Address');
         sister = _sister;
     }    
+
+    function refresh() public {
+        updatePrice();
+        updateCollateral();
+    }
+
+    function updatePrice() internal {
+        // TODO
+    }
+
+    function updateCollateral() internal {
+        // TODO
+    }
 
     function getLatestPrice() public view returns (int) {
         (
