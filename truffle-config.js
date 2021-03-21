@@ -10,7 +10,8 @@ module.exports = {
       port: 8545,
       network_id: '*',
       gas: 160928184,
-      disableConfirmationListener: true
+      disableConfirmationListener: true,
+      skipDryRun: true
     },
     kovan: {
       provider: () => {
